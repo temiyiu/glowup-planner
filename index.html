@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#8d72b7">
+<title>Glow Up Planner</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--lav:#8d72b7;--lav2:#eee7f8;--pink:#f8e8f0;--ink:#342b40;--muted:#81768d;--white:#fff;--line:#eee8f3}
+*{box-sizing:border-box}body{margin:0;background:#faf8fc;color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(135deg,#eee7f8,#f9edf3);padding:25px 18px 20px;border-radius:0 0 26px 26px}
+.top{display:flex;justify-content:space-between;align-items:center}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--muted);font-weight:700}
+h1{font-size:27px;line-height:1.15;margin:8px 0 5px}.sub{color:#71677e;font-size:13px;margin:0}
+.pill{background:#fff9;border:1px solid #fff;padding:6px 10px;border-radius:20px;font-size:11px;color:var(--lav);font-weight:700}
+main{max-width:620px;margin:auto;padding:16px 14px 90px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:4px 0 14px;position:sticky;top:0;background:#faf8fc;z-index:3}
+.tab{border:0;border-radius:18px;padding:9px 13px;background:#f0ebf5;color:#71677e;font-weight:650;white-space:nowrap}
+.tab.active{background:var(--lav);color:white}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 13px;box-shadow:0 4px 18px #44305b08}
+h2{font-size:17px;margin:0 0 12px}h3{font-size:14px;margin:0 0 5px}
+.muted{color:var(--muted);font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.progress{height:9px;background:#f0ebf5;border-radius:20px;overflow:hidden;margin:10px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#9d83c5,#e4a9c6);border-radius:20px;transition:width .2s}
+.item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f3eff6}.item:last-child{border:0}
+input[type=checkbox]{accent-color:var(--lav);width:18px;height:18px;margin-top:2px;flex-shrink:0}
+.item label{flex:1}.done label{text-decoration:line-through;color:#a49aaa}
+.time{font-size:12px;color:var(--lav);font-weight:750;min-width:92px}
+button,.btn{cursor:pointer}.action{border:0;border-radius:12px;background:var(--lav);color:white;padding:10px 13px;font-weight:700}
+.secondary{background:var(--lav2);color:var(--lav)}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;color:var(--ink);font:inherit;margin:5px 0 10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#faf7fc;border-radius:14px;padding:12px}.stat strong{display:block;font-size:21px;color:var(--lav)}
+.daygrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 0;text-align:center;font-size:12px}.day.current{border:2px solid var(--lav);background:var(--lav2)}.day.checked{background:#e9f3ec;border-color:#c9e3d0}
+.hidden{display:none!important}.note{background:#fff7fb;border-radius:13px;padding:12px;font-size:12px;color:#79667b}
+footer{text-align:center;color:#a297aa;font-size:11px;padding:18px}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><span class="eyebrow">YOUR SOFT RESET ERA</span><span class="pill">30 DAYS ✦</span></div>
+ <h1>Glow Up Planner</h1><p class="sub">Pelan kecil untuk hidup yang lebih sehat, rapi, dan mandiri. 💜</p>
+</header>
+<main>
+<nav class="tabs">
+ <button class="tab active" data-tab="home">Hari ini</button>
+ <button class="tab" data-tab="routine">Rutinitas</button>
+ <button class="tab" data-tab="challenge">30 hari</button>
+ <button class="tab" data-tab="money">Tabungan</button>
+</nav>
+<section id="home">
+ <div class="card">
+  <div class="row"><div><div class="eyebrow">DAILY CHECK-IN</div><h2 id="dateLabel">Hari ini</h2></div><span class="pill" id="dayLabel">DAY 1</span></div>
+  <div class="grid">
+   <div class="stat"><span class="muted">Kebiasaan selesai</span><strong id="doneCount">0/8</strong></div>
+   <div class="stat"><span class="muted">Progres hari ini</span><strong id="percent">0%</strong></div>
+  </div>
+  <div class="progress"><div class="bar" id="todayBar"></div></div>
+  <div id="dailyList"></div>
+ </div>
+ <div class="card"><h2>Pengingat lembut 🤍</h2><p class="muted">Makan teratur, minum air, bergerak dengan nyaman, dan tidur cukup. Tidak perlu sempurna—mulai lagi saat kamu siap.</p></div>
+</section>
+<section id="routine" class="hidden">
+ <div class="card"><h2>Jadwal harian</h2><p class="muted">Sesuaikan jamnya dengan jadwal sekolahmu.</p><div id="routineList"></div></div>
+ <div class="card"><h2>Catatan hari ini</h2><textarea id="journal" rows="4" placeholder="Apa hal baik yang kamu lakukan hari ini?"></textarea><button class="action" id="saveJournal">Simpan catatan</button><span class="muted" id="journalStatus"></span></div>
+</section>
+<section id="challenge" class="hidden">
+ <div class="card"><h2>Tantangan Glow Up 30 Hari</h2><p class="muted">Centang setelah mencoba tugas hari itu. Lewat satu hari tidak apa-apa.</p><div class="daygrid" id="dayGrid"></div><div class="progress"><div class="bar" id="challengeBar"></div></div><p class="muted" id="challengeStatus">0 dari 30 hari selesai</p></div>
+ <div class="card"><div class="eyebrow" id="weekLabel">WEEK 1</div><h2 id="challengeTitle">Reset your life</h2><p id="challengeTask"></p><button class="action" id="toggleDay">Tandai selesai</button></div>
+</section>
+<section id="money" class="hidden">
+ <div class="card"><h2>Tabungan & freelance</h2><div class="grid"><div class="stat"><span class="muted">Total tabungan</span><strong id="balance">Rp0</strong></div><div class="stat"><span class="muted">Target</span><strong id="targetDisplay">Rp100.000</strong></div></div>
+ <label class="muted" for="target">Target tabungan (Rp)</label><input id="target" type="number" min="0" value="100000">
+ <label class="muted" for="amount">Catat uang masuk / ditabung (Rp)</label><input id="amount" type="number" min="0" placeholder="Contoh: 5000">
+ <label class="muted" for="memo">Keterangan</label><input id="memo" placeholder="Contoh: uang jajan disisihkan">
+ <button class="action" id="addMoney">Tambah catatan</button><div id="moneyList" style="margin-top:12px"></div></div>
+ <div class="card"><h2>Ide skill dari HP</h2><p class="muted">Mulai dari belajar Canva, mengetik dokumen, atau membuat caption. Buat contoh karya dulu. Jangan bayar biaya pendaftaran kerja dan jangan bagikan OTP atau data pribadi.</p></div>
+</section>
+<footer>Made with care · Glow Up Planner</footer>
+</main>
+<script>
+const habits=["Bangun di jam yang konsisten","Makan teratur","Minum air putih","Aktif bergerak dengan nyaman","Skincare pagi dan malam","Belajar minimal 20 menit","Mengurangi scrolling","Tidur cukup"];
+const tasks=["Rapikan kamar dan tempat tidur.","Mulai bangun dan tidur di jam yang konsisten.","Biasakan sarapan sebelum beraktivitas.","Jalan santai 10–15 menit.","Mulai skincare pagi dan malam.","Kurangi scrolling sebelum tidur.","Evaluasi kebiasaan selama seminggu.","Makan teratur dan jangan sengaja melewatkan makan.","Tambahkan buah atau sayuran ke menu harian.","Jalan santai 15–20 menit.","Rapikan rambut dan kuku.","Belajar menyiapkan makanan sederhana.","Ganti sarung bantal dan rapikan tempat tidur.","Evaluasi tidur, energi, dan suasana hati.","Buat rutinitas skincare sederhana.","Belajar mix and match outfit warna netral.","Latihan desain Canva lewat HP.","Belajar membuat caption dan deskripsi produk.","Buat dua contoh desain untuk portofolio.","Latihan mengetik dan merapikan dokumen.","Pilih satu keterampilan untuk dikembangkan.","Buat portofolio sederhana.","Buat daftar layanan yang bisa ditawarkan.","Belajar menentukan harga jasa sederhana.","Tawarkan bantuan desain kepada keluarga atau kenalan.","Belajar mencatat pemasukan dan pengeluaran.","Sisihkan sebagian uang jajan untuk tabungan.","Rapikan lemari dan pilih outfit andalan.","Evaluasi semua kebiasaan baru.","Buat target sehat untuk bulan berikutnya."];
+const schedule=[["05.30","Bangun, ibadah, dan merapikan tempat tidur"],["06.00","Mandi, skincare, dan sarapan"],["07.00–14.00","Sekolah (sesuaikan jadwal)"],["14.30","Makan siang dan istirahat"],["16.00","Jalan santai atau aktivitas ringan"],["17.00","Mandi dan waktu pribadi"],["18.00","Belajar, tugas, dan ibadah"],["20.00","Belajar skill freelance 20–30 menit"],["21.00","Siapkan perlengkapan sekolah, kurangi HP"],["21.30–22.00","Waktu tidur"]];
+const key='glowPlannerV1';let state=JSON.parse(localStorage.getItem(key)||'{}');state.daily=state.daily||{};state.days=state.days||{};state.money=state.money||[];state.notes=state.notes||{};
+const today=new Date();const iso=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');let selectedDay=1;
+function save(){localStorage.setItem(key,JSON.stringify(state))}
+function moneyFmt(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
+function dayNum(){if(!state.start){state.start=iso;save()}return Math.max(1,Math.min(30,Math.floor((new Date(iso)-new Date(state.start))/86400000)+1))}
+function renderDaily(){let vals=state.daily[iso]||[];document.getElementById('dateLabel').textContent=today.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'});document.getElementById('dayLabel').textContent='DAY '+dayNum();document.getElementById('dailyList').innerHTML=habits.map((h,i)=>`<div class="item ${vals.includes(i)?'done':''}"><input type="checkbox" ${vals.includes(i)?'checked':''} data-habit="${i}"><label>${h}</label></div>`).join('');let n=vals.length;document.getElementById('doneCount').textContent=n+'/8';document.getElementById('percent').textContent=Math.round(n/8*100)+'%';document.getElementById('todayBar').style.width=n/8*100+'%';document.querySelectorAll('[data-habit]').forEach(el=>el.onchange=()=>{let a=state.daily[iso]||[];let i=+el.dataset.habit;state.daily[iso]=el.checked?[...new Set([...a,i])]:a.filter(x=>x!==i);save();renderDaily()})}
+function renderRoutine(){document.getElementById('routineList').innerHTML=schedule.map(x=>`<div class="item"><span class="time">${x[0]}</span><label>${x[1]}</label></div>`).join('');document.getElementById('journal').value=state.notes[iso]||''}
+function renderChallenge(){let done=Object.values(state.days).filter(Boolean).length;document.getElementById('challengeBar').style.width=done/30*100+'%';document.getElementById('challengeStatus').textContent=done+' dari 30 hari selesai';document.getElementById('dayGrid').innerHTML=tasks.map((t,i)=>`<button class="day ${selectedDay===i+1?'current':''} ${state.days[i+1]?'checked':''}" data-day="${i+1}">${i+1}</button>`).join('');document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{selectedDay=+b.dataset.day;renderChallenge()});let w=Math.ceil(selectedDay/7);document.getElementById('weekLabel').textContent='WEEK '+w;document.getElementById('challengeTitle').textContent=['Reset your life','Healthy girl era','Elegant & productive','Independent girl era'][Math.min(3,Math.floor((selectedDay-1)/7))];document.getElementById('challengeTask').textContent='Day '+selectedDay+': '+tasks[selectedDay-1];document.getElementById('toggleDay').textContent=state.days[selectedDay]?'Batalkan tanda selesai':'Tandai selesai'}
+function renderMoney(){let sum=state.money.reduce((a,x)=>a+x.amount,0),target=Number(document.getElementById('target').value||100000);document.getElementById('balance').textContent=moneyFmt(sum);document.getElementById('targetDisplay').textContent=moneyFmt(target);document.getElementById('moneyList').innerHTML=state.money.slice().reverse().map(x=>`<div class="item"><label><b>${moneyFmt(x.amount)}</b><br><span class="muted">${escapeHtml(x.memo)} · ${x.date}</span></label></div>`).join('')||'<p class="muted">Belum ada catatan tabungan.</p>'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['home','routine','challenge','money'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==b.dataset.tab))});
+document.getElementById('saveJournal').onclick=()=>{state.notes[iso]=document.getElementById('journal').value;save();document.getElementById('journalStatus').textContent=' Tersimpan ✓'};
+document.getElementById('toggleDay').onclick=()=>{state.days[selectedDay]=!state.days[selectedDay];save();renderChallenge()};
+document.getElementById('addMoney').onclick=()=>{let amount=Number(document.getElementById('amount').value);if(!amount||amount<1)return alert('Masukkan jumlah lebih dari 0.');state.money.push({amount,memo:document.getElementById('memo').value||'Tabungan',date:today.toLocaleDateString('id-ID')});document.getElementById('amount').value='';document.getElementById('memo').value='';save();renderMoney()};
+document.getElementById('target').oninput=renderMoney;
+renderDaily();renderRoutine();renderChallenge();renderMoney();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
